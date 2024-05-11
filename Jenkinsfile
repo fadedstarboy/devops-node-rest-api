@@ -5,6 +5,7 @@ pipeline {
         DOCKER_HUB_REGISTRY = 'fadedstarboy'
         IMAGE_NAME = 'fadedstarboy/node-app'
         TAG = 'latest'
+	REGISTRY_CREDENTIALS = credentials('DOCKER_CREDS')
     }
     
     stages {
@@ -15,18 +16,17 @@ pipeline {
                 }
             }
         }
-        
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'DOCKER_CREDS', usernameVariable: 'Username', passwordVariable: 'Password')]) {
-                        docker.withRegistry('https://index.docker.io/v1/', Username, Password) {
-                            docker.image("${DOCKER_HUB_REGISTRY}/${IMAGE_NAME}:${TAG}").push()
-                        }
-                    }
+	
+	stage('Push to DockerHub'){
+            steps{
+                script{
+                    sh 'echo $REGISTRY_CREDENTIALS | docker login -u $REGISTRY_CREDENTIALS --password-stdin'
+                    sh 'docker push ${DOCKER_HUB_REGISTRY}/${IMAGE_NAME}:${TAG}'
                 }
             }
         }
+	
+        
     }
 }
 
