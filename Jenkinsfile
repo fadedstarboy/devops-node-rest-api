@@ -20,7 +20,7 @@ pipeline {
 	stage('Push to DockerHub'){
             steps{
                 script{
-                    sh 'echo $REGISTRY_CREDENTIALS | docker login -u $REGISTRY_CREDENTIALS --password-stdin'
+                    sh 'echo $REGISTRY_CREDENTIALS | docker login -u $DOCKER_HUB_REGISTRY --password-stdin'
                     sh 'docker push ${DOCKER_HUB_REGISTRY}/${IMAGE_NAME}:${TAG}'
                 }
             }
