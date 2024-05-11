@@ -8,12 +8,6 @@ pipeline {
     }
     
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'master', url: 'https://github.com/fadedstarboy/devops-node-rest-api.git'
-            }
-        }
-        
         stage('Build Docker Image') {
             steps {
                 script {
