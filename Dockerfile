@@ -11,6 +11,8 @@ COPY package*.json ./
 RUN npm install && \
     npm cache clean --force
 
+RUN npm install -g nodemon
+
 # Copy the rest of the application code to the working directory
 COPY . .
 
@@ -18,5 +20,5 @@ COPY . .
 EXPOSE 3000
 
 # Start the application
-CMD ["npm", "start"]
+CMD ["npm start"]
 
